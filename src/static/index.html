@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prefeitura de Nova Porteirinha - Sistema de Atendimento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .search-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .search-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            margin-top: 30px;
+        }
+
+        .boleto-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .boleto-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .boleto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .boleto-codigo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .boleto-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .valor-destaque {
+            font-size: 1.3rem;
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #dc3545;
+        }
+
+        .status-info {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .form-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prefeitura de Nova Porteirinha</h1>
+            <p>Sistema de Atendimento - Consulta de Boletos</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Status do Sistema -->
+            <div class="status-info">
+                <h3>Status do Sistema</h3>
+                <p id="status-sistema">Carregando...</p>
+            </div>
+
+            <!-- Seção de Busca -->
+            <div class="search-section">
+                <h2>Consultar Boleto por Código de Barras</h2>
+                <div class="search-form">
+                    <div class="form-group">
+                        <label for="codigo-barras">Código de Barras (44 dígitos)</label>
+                        <input type="text" id="codigo-barras" placeholder="Ex: 00134421912159541569443774907030805334698098" maxlength="44">
+                    </div>
+                    <button class="btn btn-primary" onclick="consultarBoletoPorBarras()" id="btn-consultar">
+                        Consultar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Seção de Resultados -->
+            <div class="result-section" id="result-section">
+                <!-- Resultados aparecerão aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        let boletoAtual = null;
+        let codigoInicialCorreios = null;
+
+        // Carregar status do sistema e código inicial ao inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            codigoInicialCorreios = urlParams.get('codigoCorreios');
+
+            if (codigoInicialCorreios) {
+                console.log('Código inicial dos Correios recebido:', codigoInicialCorreios);
+            } else {
+                console.error('Código inicial dos Correios não encontrado na URL.');
+                const mainContent = document.querySelector('.main-content');
+                mainContent.innerHTML = '<div class="alert alert-error"><strong>Erro:</strong> Código inicial dos Correios não fornecido. A aplicação não pode continuar. Por favor, acesse através do link correto.</div>';
+            }
+
+            carregarStatusSistema();
+        });
+
+        // Função para carregar status do sistema
+        async function carregarStatusSistema() {
+            try {
+                const response = await fetch('/api/boletos/status');
+                const data = await response.json();
+                
+                const statusElement = document.getElementById('status-sistema');
+                statusElement.innerHTML = `
+                    <strong>${data.sistema}</strong> - ${data.status} | 
+                    Total de boletos: ${data.total_boletos} | 
+                    Atendimentos pendentes: ${data.atendimentos_pendentes} |
+                    Atendimentos liquidados: ${data.atendimentos_liquidados} |
+                    Última atualização: ${new Date(data.timestamp).toLocaleString('pt-BR')}
+                `;
+            } catch (error) {
+                document.getElementById('status-sistema').textContent = 'Erro ao carregar status do sistema';
+            }
+        }
+
+        // Função para consultar boleto por código de barras
+        async function consultarBoletoPorBarras() {
+            const codigoBarras = document.getElementById('codigo-barras').value;
+            if (codigoBarras.length !== 44) {
+                alert('O código de barras deve ter 44 dígitos.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/boletos/consultar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ codigo_barras: codigoBarras })
+                });
+
+                const data = await response.json();
+                boletoAtual = data;
+                mostrarResultado(data);
+            } catch (error) {
+                console.error('Erro ao consultar boleto:', error);
+                mostrarResultado({ error: 'Erro ao conectar com o servidor.' });
+            }
+        }
+
+        // Função para exibir o resultado da consulta
+        function mostrarResultado(data) {
+            const resultSection = document.getElementById('result-section');
+            if (data.error) {
+                resultSection.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+                return;
+            }
+
+            resultSection.innerHTML = `
+                <div class="boleto-card">
+                    <div class="boleto-header">
+                        <div class="boleto-codigo">Boleto: ${data.codigo_boleto}</div>
+                    </div>
+                    <div class="boleto-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Nome do Pagador</span>
+                            <span class="detail-value">${data.nome_pagador}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">CPF</span>
+                            <span class="detail-value">${data.cpf_pagador}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Valor</span>
+                            <span class="detail-value valor-destaque">R$ ${data.valor.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Vencimento</span>
+                            <span class="detail-value">${new Date(data.data_vencimento).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="iniciarAtendimento()">Iniciar Atendimento</button>
+                </div>
+            `;
+        }
+
+        // Função para iniciar o atendimento
+        async function iniciarAtendimento() {
+            if (!boletoAtual || !codigoInicialCorreios) {
+                alert('Boleto ou código inicial dos Correios não encontrado.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/boletos/registrar-atendimento', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        codigo_barras: boletoAtual.codigo_barras,
+                        codigo_correios: codigoInicialCorreios
+                    })
+                });
+
+                const data = await response.json();
+                mostrarAtendimentoIniciado(data);
+            } catch (error) {
+                console.error('Erro ao iniciar atendimento:', error);
+                alert('Falha ao iniciar atendimento.');
+            }
+        }
+
+        // Função para mostrar o atendimento iniciado e fechar a aplicação
+        function mostrarAtendimentoIniciado(data) {
+            const mainContent = document.querySelector('.main-content');
+            if (data.error) {
+                mainContent.innerHTML = `<div class="alert alert-error"><strong>Erro:</strong> ${data.error}</div>`;
+                return;
+            }
+
+            mainContent.innerHTML = `
+                <div class="alert alert-success">
+                    <h3>Atendimento Registrado com Sucesso!</h3>
+                    <p>O código interno do seu atendimento é: <strong>${data.codigo_interno}</strong></p>
+                    <p>Aguarde a confirmação assíncrona dos Correios. Esta janela será fechada em <span id="countdown">10</span> segundos.</p>
+                </div>
+            `;
+
+            let countdown = 10;
+            const countdownElement = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    document.body.innerHTML = '<div style="text-align: center; padding-top: 50px; color: white; font-size: 1.5rem;">Aplicação Encerrada. Pode fechar esta janela.</div>';
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
