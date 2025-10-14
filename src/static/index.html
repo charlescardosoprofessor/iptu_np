@@ -336,8 +336,12 @@
                 });
 
                 const data = await response.json();
-                boletoAtual = data;
-                mostrarResultado(data);
+                if (data.sucesso) {
+                    boletoAtual = data.boleto;
+                    mostrarResultado(data);
+                } else {
+                    mostrarResultado({ error: data.mensagem || 'Erro ao consultar boleto.' });
+                }
             } catch (error) {
                 console.error('Erro ao consultar boleto:', error);
                 mostrarResultado({ error: 'Erro ao conectar com o servidor.' });
@@ -347,32 +351,32 @@
         // Função para exibir o resultado da consulta
         function mostrarResultado(data) {
             const resultSection = document.getElementById('result-section');
-            if (data.error) {
-                resultSection.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+            if (data.error || !data.boleto) {
+                resultSection.innerHTML = `<div class="alert alert-error">${data.error || 'Boleto não encontrado.'}</div>`;
                 return;
             }
 
             resultSection.innerHTML = `
                 <div class="boleto-card">
                     <div class="boleto-header">
-                        <div class="boleto-codigo">Boleto: ${data.codigo_boleto}</div>
+                        <div class="boleto-codigo">Boleto: ${data.boleto.codigo_boleto}</div>
                     </div>
                     <div class="boleto-details">
                         <div class="detail-item">
                             <span class="detail-label">Nome do Pagador</span>
-                            <span class="detail-value">${data.nome_pagador}</span>
+                            <span class="detail-value">${data.boleto.nome_devedor}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">CPF</span>
-                            <span class="detail-value">${data.cpf_pagador}</span>
+                            <span class="detail-value">${data.boleto.cpf_devedor}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Valor</span>
-                            <span class="detail-value valor-destaque">R$ ${data.valor.toFixed(2).replace('.', ',')}</span>
+                            <span class="detail-value valor-destaque">R$ ${data.boleto.valor.toFixed(2).replace('.', ',')}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Vencimento</span>
-                            <span class="detail-value">${new Date(data.data_vencimento).toLocaleDateString('pt-BR')}</span>
+                            <span class="detail-value">${new Date(data.boleto.data_vencimento).toLocaleDateString('pt-BR')}</span>
                         </div>
                     </div>
                     <button class="btn btn-primary" onclick="iniciarAtendimento()">Iniciar Atendimento</button>
@@ -395,7 +399,7 @@
                     },
                     body: JSON.stringify({ 
                         codigo_barras: boletoAtual.codigo_barras,
-                        codigo_correios: codigoInicialCorreios
+                        codigo_inicial: codigoInicialCorreios
                     })
                 });
 
@@ -430,7 +434,7 @@
                 countdownElement.textContent = countdown;
                 if (countdown <= 0) {
                     clearInterval(interval);
-                    document.body.innerHTML = '<div style="text-align: center; padding-top: 50px; color: white; font-size: 1.5rem;">Aplicação Encerrada. Pode fechar esta janela.</div>';
+                    window.close(); // Tenta fechar a janela
                 }
             }, 1000);
         }
