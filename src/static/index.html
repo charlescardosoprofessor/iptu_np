@@ -327,7 +327,7 @@
             }
 
             try {
-                const response = await fetch('/api/boletos/consultar', {
+                const response = await fetch('/api/boletos/consultar-por-barras', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -388,7 +388,7 @@
             }
 
             try {
-                const response = await fetch('/api/boletos/registrar-atendimento', {
+                const response = await fetch('/api/boletos/iniciar-atendimento', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
