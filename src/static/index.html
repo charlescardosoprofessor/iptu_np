@@ -336,7 +336,7 @@
                 });
 
                 const data = await response.json();
-                boletoAtual = data;
+                boletoAtual = data.boleto;
                 mostrarResultado(data);
             } catch (error) {
                 console.error('Erro ao consultar boleto:', error);
@@ -345,7 +345,12 @@
         }
 
         // Função para exibir o resultado da consulta
-        function mostrarResultado(data) {
+        function formatarData(dataString) {
+                const partes = dataString.split(\'/\');
+                return new Date(partes[2], partes[1] - 1, partes[0]).toLocaleDateString(\'pt-BR\');
+            }
+
+            function mostrarResultado(data) {
             const resultSection = document.getElementById('result-section');
             if (data.error) {
                 resultSection.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
@@ -355,24 +360,24 @@
             resultSection.innerHTML = `
                 <div class="boleto-card">
                     <div class="boleto-header">
-                        <div class="boleto-codigo">Boleto: ${data.codigo_boleto}</div>
+                        <div class="boleto-codigo">Boleto: ${data.boleto.codigo_boleto}</div>
                     </div>
                     <div class="boleto-details">
                         <div class="detail-item">
                             <span class="detail-label">Nome do Pagador</span>
-                            <span class="detail-value">${data.nome_pagador}</span>
+                            <span class="detail-value">${data.boleto.nome_devedor}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">CPF</span>
-                            <span class="detail-value">${data.cpf_pagador}</span>
+                            <span class="detail-value">${data.boleto.cpf_devedor}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Valor</span>
-                            <span class="detail-value valor-destaque">R$ ${data.valor.toFixed(2).replace('.', ',')}</span>
+                            <span class="detail-value valor-destaque">R$ ${data.boleto.valor.toFixed(2).replace('.', ',')}</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Vencimento</span>
-                            <span class="detail-value">${new Date(data.data_vencimento).toLocaleDateString('pt-BR')}</span>
+                            <span class="detail-value">formatarData(data.boleto.data_vencimento)}</span>
                         </div>
                     </div>
                     <button class="btn btn-primary" onclick="iniciarAtendimento()">Iniciar Atendimento</button>

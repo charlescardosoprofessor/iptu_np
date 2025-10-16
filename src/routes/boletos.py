@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+import base64
 import pandas as pd
 import os
 import requests
@@ -16,7 +17,7 @@ atendimentos_pendentes = {}  # Armazena atendimentos com status pendente
 
 # URL do API dos Correios
 # URL da API dos Correios (será fornecida pelos Correios em produção)
-CORREIOS_API_URL = os.getenv("CORREIOS_API_URL", "http://localhost:5001/api/v1/atendimentos/registra")
+CORREIOS_API_URL = os.getenv("CORREIOS_API_URL", "https://apphom.correios.com.br/ster/api/v1/atendimentos/registra")
 
 def carregar_dados_boletos():
     """Carrega os dados da planilha Excel em memória."""
@@ -59,30 +60,53 @@ def processar_atendimento_assincrono(dados_atendimento, codigo_inicial):
         # Enviar dados para o API dos Correios
         print(f"Enviando dados para o API dos Correios: {CORREIOS_API_URL}")
         
+        # Headers conforme especificação da API dos Correios
+        headers = {
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache',
+            'Authorization': f'Basic {os.getenv("CORREIOS_AUTH_BASIC")}'
+        }
+        
         response = requests.post(
             CORREIOS_API_URL,
             json=dados_atendimento,
-            timeout=10
+            headers=headers,
+            timeout=30
         )
         
-        if response.status_code == 200:
-            resultado = response.json()
-            
-            if resultado.get('sucesso'):
-                protocolo = resultado.get('protocolo_atendimento')
+        print(f"Status da resposta: {response.status_code}")
+        print(f"Conteúdo da resposta: {response.text}")
+        
+        if response.status_code == 200 or response.status_code == 201:
+            try:
+                resultado = response.json()
                 
-                # Atualizar status do atendimento para "Liquidado"
+                # A API dos Correios pode retornar diferentes estruturas de resposta
+                # Vamos tratar tanto respostas de sucesso quanto de erro
+                codigo_interno = resultado.get('codigo') or resultado.get('codigoInterno') or 'N/A'
+                
+                # Atualizar status do atendimento para "Registrado"
                 if codigo_inicial in atendimentos_pendentes:
-                    atendimentos_pendentes[codigo_inicial]['status'] = 'Liquidado'
-                    atendimentos_pendentes[codigo_inicial]['protocolo'] = protocolo
-                    atendimentos_pendentes[codigo_inicial]['data_liquidacao'] = datetime.now().isoformat()
+                    atendimentos_pendentes[codigo_inicial]['status'] = 'Registrado'
+                    atendimentos_pendentes[codigo_inicial]['codigo_interno'] = codigo_interno
+                    atendimentos_pendentes[codigo_inicial]['data_registro'] = datetime.now().isoformat()
                     atendimentos_pendentes[codigo_inicial]['resposta_correios'] = resultado
                 
-                print(f"Atendimento processado com sucesso. Protocolo: {protocolo}")
-            else:
-                raise Exception(f"Erro retornado pelo simulador: {resultado.get('mensagem')}")
+                print(f"Atendimento registrado com sucesso. Código interno: {codigo_interno}")
+            except ValueError as e:
+                # Resposta não é JSON válido
+                print(f"Resposta não é JSON válido: {response.text}")
+                if codigo_inicial in atendimentos_pendentes:
+                    atendimentos_pendentes[codigo_inicial]['status'] = 'Erro'
+                    atendimentos_pendentes[codigo_inicial]['erro'] = f"Resposta inválida: {response.text}"
         else:
-            raise Exception(f"Erro HTTP {response.status_code}: {response.text}")
+            # Tratar erros HTTP
+            erro_msg = f"Erro HTTP {response.status_code}: {response.text}"
+            print(erro_msg)
+            if codigo_inicial in atendimentos_pendentes:
+                atendimentos_pendentes[codigo_inicial]['status'] = 'Erro'
+                atendimentos_pendentes[codigo_inicial]['erro'] = erro_msg
+            raise Exception(erro_msg)
         
     except requests.exceptions.RequestException as e:
         print(f"Erro de conexão com o API dos Correios: {e}")
@@ -216,15 +240,14 @@ def iniciar_atendimento():
         
         boleto_info = boleto_encontrado.iloc[0].to_dict()
         
-        # Gerar o JSON específico conforme os requisitos
+        # Gerar o JSON específico conforme os requisitos da API dos Correios
         json_atendimento = {
-            'chaveInicialCorreios': codigo_inicial,
-            'cpfPessoa': boleto_info['cpf_devedor'],
-            'identificacaoCliente': boleto_info['identificacao_cliente'],
-            'codigoReferenciaBoleto': boleto_info['codigo_boleto'],
-            'mensagemPadrao': f"Recebemos esse valor {boleto_info['nome_devedor']} ref. ao iptu 2025",
-            'valor': converter_valor_para_centavos(float(boleto_info['valor'])),
-            'quantidade': '1x1'
+            'codigoCorreios': boleto_info['codigo_correios'],
+            'valorServico': str(int(float(boleto_info['valor']) * 100)),  # Converter para centavos como string
+            'numeroIdentificacaoCliente': boleto_info['cpf_devedor'].replace('.', '').replace('-', ''),  # CPF sem formatação
+            'quantidade': '1',
+            'chaveCliente': f"ASL-{boleto_info['codigo_boleto']}",  # Formato conforme exemplo
+            'textoTicket': 'Texto adicional no ticket'
         }
         
         # Criar registro de atendimento pendente
