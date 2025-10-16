@@ -55,118 +55,75 @@
             border-radius: 10px;
             padding: 30px;
             margin-bottom: 30px;
-            border-left: 5px solid #667eea;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
 
         .search-section h2 {
-            color: #2c3e50;
+            color: #333;
+            font-size: 1.8rem;
             margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 15px;
-            align-items: end;
-            flex-wrap: wrap;
+            text-align: center;
         }
 
         .form-group {
-            flex: 1;
-            min-width: 300px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e8ed;
+        .form-group input[type="text"] {
+            width: 70%;
+            padding: 12px 20px;
+            border: 1px solid #ced4da;
             border-radius: 8px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            font-family: 'Courier New', monospace;
         }
 
-        .form-group input:focus {
-            outline: none;
+        .form-group input[type="text"]:focus {
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            outline: none;
         }
 
-        .btn {
+        .form-group button {
             padding: 12px 25px;
+            background-color: #667eea;
+            color: white;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
-            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
+        .form-group button:hover {
+            background-color: #5a6cdb;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
         }
 
         .result-section {
-            margin-top: 30px;
-        }
-
-        .boleto-card {
-            background: white;
-            border: 1px solid #e1e8ed;
+            background: #ffffff;
             border-radius: 10px;
-            padding: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            display: none; /* Escondido por padrão */
+        }
+
+        .result-section h3 {
+            color: #333;
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .boleto-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-            border-color: #667eea;
-        }
-
-        .boleto-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .boleto-codigo {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
         }
 
         .boleto-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
         .detail-item {
@@ -175,71 +132,79 @@
         }
 
         .detail-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 3px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
         }
 
         .detail-value {
-            font-size: 1rem;
-            color: #2c3e50;
-            font-weight: 500;
+            color: #333;
+            font-size: 1.1rem;
         }
 
         .valor-destaque {
+            color: #28a745; /* Verde para destaque de valor */
+            font-weight: bold;
             font-size: 1.3rem;
-            color: #27ae60;
-            font-weight: 600;
         }
 
-        .alert {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-color: #dc3545;
-        }
-
-        .status-info {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .button-group {
             text-align: center;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 10px;
-            }
+        .button-group button {
+            padding: 12px 30px;
+            background-color: #28a745; /* Verde para ação principal */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
 
-            .header {
-                padding: 20px;
-            }
+        .button-group button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
 
-            .header h1 {
-                font-size: 2rem;
-            }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            text-align: center;
+        }
 
-            .main-content {
-                padding: 20px;
-            }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-            .search-form {
-                flex-direction: column;
-            }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-            .form-group {
-                min-width: 100%;
-            }
+        .status-section {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #495057;
+        }
+
+        .status-section p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .status-section strong {
+            color: #343a40;
         }
     </style>
 </head>
@@ -249,80 +214,116 @@
             <h1>Prefeitura de Nova Porteirinha</h1>
             <p>Sistema de Atendimento - Consulta de Boletos</p>
         </div>
-
         <div class="main-content">
-            <!-- Status do Sistema -->
-            <div class="status-info">
+            <div class="status-section">
                 <h3>Status do Sistema</h3>
-                <p id="status-sistema">Carregando...</p>
+                <p>STER CONTRATANTE - Operacional | Total de boletos: <span id="totalBoletos">--</span> | Atendimentos pendentes: <span id="atendimentosPendentes">--</span> | Atendimentos liquidados: <span id="atendimentosLiquidados">--</span> | Última atualização: <span id="ultimaAtualizacao">--</span></p>
             </div>
 
-            <!-- Seção de Busca -->
             <div class="search-section">
                 <h2>Consultar Boleto por Código de Barras</h2>
-                <div class="search-form">
-                    <div class="form-group">
-                        <label for="codigo-barras">Código de Barras (44 dígitos)</label>
-                        <input type="text" id="codigo-barras" placeholder="Ex: 00134421912159541569443774907030805334698098" maxlength="44">
-                    </div>
-                    <button class="btn btn-primary" onclick="consultarBoletoPorBarras()" id="btn-consultar">
-                        Consultar
-                    </button>
+                <div class="form-group">
+                    <input type="text" id="codigoBarrasInput" placeholder="Digite o código de barras (44 dígitos)" maxlength="44">
+                    <button onclick="consultarBoletoPorBarras()">Consultar</button>
                 </div>
+                <div id="errorMessage" class="alert alert-error" style="display: none;"></div>
             </div>
 
-            <!-- Seção de Resultados -->
-            <div class="result-section" id="result-section">
-                <!-- Resultados aparecerão aqui -->
+            <div id="resultSection" class="result-section">
+                <h3>Boleto: <span id="boletoCodigo"></span></h3>
+                <div class="boleto-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Nome do Pagador</span>
+                        <span class="detail-value" id="nomePagador"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">CPF</span>
+                        <span class="detail-value" id="cpfPagador"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Valor</span>
+                        <span class="detail-value valor-destaque" id="valorBoleto"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Vencimento</span>
+                        <span class="detail-value" id="dataVencimento"></span>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button onclick="iniciarAtendimento()">Iniciar Atendimento</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Variáveis globais
-        let boletoAtual = null;
-        let codigoInicialCorreios = null;
+        let boletoAtual = null; // Variável global para armazenar o boleto consultado
+        let codigoInicialCorreios = null; // Variável global para armazenar o código inicial dos Correios
 
-        // Carregar status do sistema e código inicial ao inicializar
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener("DOMContentLoaded", function() {
+            // Tenta obter o codigoCorreios da URL
             const urlParams = new URLSearchParams(window.location.search);
-            codigoInicialCorreios = urlParams.get('codigoCorreios');
+            const codigoCorreiosParam = urlParams.get('codigoCorreios');
+            const idClienteParam = urlParams.get('idCliente');
 
-            if (codigoInicialCorreios) {
+            if (codigoCorreiosParam) {
+                codigoInicialCorreios = codigoCorreiosParam;
                 console.log('Código inicial dos Correios recebido:', codigoInicialCorreios);
-            } else {
-                console.error('Código inicial dos Correios não encontrado na URL.');
-                const mainContent = document.querySelector('.main-content');
-                mainContent.innerHTML = '<div class="alert alert-error"><strong>Erro:</strong> Código inicial dos Correios não fornecido. A aplicação não pode continuar. Por favor, acesse através do link correto.</div>';
+                // Aqui você pode adicionar lógica para exibir o código ou usá-lo
             }
 
-            carregarStatusSistema();
+            // Atualizar o status do sistema ao carregar a página
+            atualizarStatusSistema();
+            // Atualizar a cada 30 segundos
+            setInterval(atualizarStatusSistema, 30000);
         });
 
-        // Função para carregar status do sistema
-        async function carregarStatusSistema() {
+        function formatarData(dataString) {
+            if (!dataString) return 'N/A';
+            // Espera o formato DD/MM/YYYY
+            const partes = dataString.split('/');
+            if (partes.length === 3) {
+                const [dia, mes, ano] = partes;
+                const data = new Date(`${ano}-${mes}-${dia}T00:00:00`);
+                if (!isNaN(data)) {
+                    return data.toLocaleDateString('pt-BR');
+                }
+            }
+            // Se o formato não for DD/MM/YYYY, tenta parsear como ISO ou outro formato padrão
+            const data = new Date(dataString);
+            if (!isNaN(data)) {
+                return data.toLocaleDateString('pt-BR');
+            }
+            return 'Invalid Date';
+        }
+
+        async function atualizarStatusSistema() {
             try {
-                const response = await fetch('/api/boletos/status');
+                const response = await fetch('/api/status');
                 const data = await response.json();
-                
-                const statusElement = document.getElementById('status-sistema');
-                statusElement.innerHTML = `
-                    <strong>${data.sistema}</strong> - ${data.status} | 
-                    Total de boletos: ${data.total_boletos} | 
-                    Atendimentos pendentes: ${data.atendimentos_pendentes} |
-                    Atendimentos liquidados: ${data.atendimentos_liquidados} |
-                    Última atualização: ${new Date(data.timestamp).toLocaleString('pt-BR')}
-                `;
+
+                document.getElementById('totalBoletos').textContent = data.total_boletos;
+                document.getElementById('atendimentosPendentes').textContent = data.atendimentos_pendentes;
+                document.getElementById('atendimentosLiquidados').textContent = data.atendimentos_liquidados;
+                document.getElementById('ultimaAtualizacao').textContent = new Date(data.ultima_atualizacao).toLocaleTimeString('pt-BR');
             } catch (error) {
-                document.getElementById('status-sistema').textContent = 'Erro ao carregar status do sistema';
+                console.error('Erro ao atualizar status do sistema:', error);
+                document.getElementById('totalBoletos').textContent = '--';
+                document.getElementById('atendimentosPendentes').textContent = '--';
+                document.getElementById('atendimentosLiquidados').textContent = '--';
+                document.getElementById('ultimaAtualizacao').textContent = '--';
             }
         }
 
-        // Função para consultar boleto por código de barras
         async function consultarBoletoPorBarras() {
-            const codigoBarras = document.getElementById('codigo-barras').value;
-            if (codigoBarras.length !== 44) {
-                alert('O código de barras deve ter 44 dígitos.');
+            const codigoBarras = document.getElementById('codigoBarrasInput').value;
+            const errorMessageDiv = document.getElementById('errorMessage');
+            errorMessageDiv.style.display = 'none';
+            errorMessageDiv.textContent = '';
+
+            if (!codigoBarras || codigoBarras.length !== 44) {
+                errorMessageDiv.textContent = 'Por favor, digite um código de barras válido com 44 dígitos.';
+                errorMessageDiv.style.display = 'block';
                 return;
             }
 
@@ -330,81 +331,81 @@
                 const response = await fetch('/api/boletos/consultar-por-barras', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ codigo_barras: codigoBarras })
+                    body: JSON.stringify({ codigo_barras: codigoBarras }),
                 });
 
                 const data = await response.json();
-                if (data.sucesso) {
-                    boletoAtual = data.boleto;
+
+                if (response.ok) {
                     mostrarResultado(data);
                 } else {
-                    mostrarResultado({ error: data.mensagem || 'Erro ao consultar boleto.' });
+                    errorMessageDiv.textContent = data.mensagem || 'Erro ao consultar boleto.';
+                    errorMessageDiv.style.display = 'block';
+                    document.getElementById('resultSection').style.display = 'none';
                 }
             } catch (error) {
                 console.error('Erro ao consultar boleto:', error);
-                mostrarResultado({ error: 'Erro ao conectar com o servidor.' });
+                errorMessageDiv.textContent = 'Erro ao conectar com o servidor.';
+                errorMessageDiv.style.display = 'block';
+                document.getElementById('resultSection').style.display = 'none';
             }
         }
 
-        // Função para exibir o resultado da consulta
         function mostrarResultado(data) {
-            const resultSection = document.getElementById('result-section');
-            if (data.error || !data.boleto) {
-                resultSection.innerHTML = `<div class="alert alert-error">${data.error || 'Boleto não encontrado.'}</div>`;
-                return;
-            }
-
-            resultSection.innerHTML = `
-                <div class="boleto-card">
-                    <div class="boleto-header">
-                        <div class="boleto-codigo">Boleto: ${data.boleto.codigo_boleto}</div>
-                    </div>
-                    <div class="boleto-details">
-                        <div class="detail-item">
-                            <span class="detail-label">Nome do Pagador</span>
-                            <span class="detail-value">${data.boleto.nome_devedor}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">CPF</span>
-                            <span class="detail-value">${data.boleto.cpf_devedor}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Valor</span>
-                            <span class="detail-value valor-destaque">R$ ${data.boleto.valor.toFixed(2).replace('.', ',')}</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Vencimento</span>
-                            <span class="detail-value">${new Date(data.boleto.data_vencimento).toLocaleDateString('pt-BR')}</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="iniciarAtendimento()">Iniciar Atendimento</button>
-                </div>
-            `;
+            boletoAtual = data.boleto; // Armazena o objeto boleto completo
+            document.getElementById('boletoCodigo').textContent = boletoAtual.codigo_boleto;
+            document.getElementById('nomePagador').textContent = boletoAtual.nome_devedor;
+            document.getElementById('cpfPagador').textContent = boletoAtual.cpf_devedor;
+            document.getElementById('valorBoleto').textContent = `R$ ${boletoAtual.valor.toFixed(2).replace('.', ',')}`;
+            document.getElementById('dataVencimento').textContent = formatarData(boletoAtual.data_vencimento);
+            document.getElementById('resultSection').style.display = 'block';
         }
 
-        // Função para iniciar o atendimento
         async function iniciarAtendimento() {
-            if (!boletoAtual || !codigoInicialCorreios) {
-                alert('Boleto ou código inicial dos Correios não encontrado.');
+            if (!boletoAtual) {
+                alert('Nenhum boleto selecionado para iniciar atendimento.');
                 return;
             }
 
             try {
+                // Gerar código inicial dos Correios
+                const codigoInicialResponse = await fetch('/api/boletos/gerar-codigo-inicial', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}),
+                });
+                const codigoInicialData = await codigoInicialResponse.json();
+
+                if (!codigoInicialResponse.ok || !codigoInicialData.sucesso) {
+                    alert(codigoInicialData.mensagem || 'Erro ao gerar código inicial dos Correios.');
+                    return;
+                }
+
+                codigoInicialCorreios = codigoInicialData.codigo_inicial; // Armazena o código inicial gerado
+
                 const response = await fetch('/api/boletos/iniciar-atendimento', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
-                        codigo_barras: boletoAtual.codigo_barras,
-                        codigo_inicial: codigoInicialCorreios
-                    })
+                    body: JSON.stringify({
+                        codigo_inicial: codigoInicialCorreios,
+                        codigo_barras: boletoAtual.codigo_barras
+                    }),
                 });
 
                 const data = await response.json();
-                mostrarAtendimentoIniciado(data);
+
+                if (response.ok && data.sucesso) {
+                    mostrarAtendimentoIniciado(data);
+                } else {
+                    console.error('Erro ao iniciar atendimento:', data.mensagem);
+                    alert(data.mensagem || 'Falha ao iniciar atendimento.');
+                }
             } catch (error) {
                 console.error('Erro ao iniciar atendimento:', error);
                 alert('Falha ao iniciar atendimento.');
